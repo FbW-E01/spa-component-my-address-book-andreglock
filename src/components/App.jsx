@@ -3,7 +3,10 @@ import AddContact from './AddContact';
 import ContactsList from "./ContactsList";
 import { useState } from 'react';
 
-const contactList = [];
+let contactList = [];
+if (localStorage.getItem("contactsInStorage") !== null) {
+    contactList = JSON.parse(localStorage.getItem("contactsInStorage"));
+}
 
 export default function App() {
     
@@ -17,6 +20,8 @@ export default function App() {
         setContact(newContactList);
 
         contactList.push(contact);
+        // Local storage takes only strings
+        localStorage.setItem("contactsInStorage", JSON.stringify(contactList));
     }
 
     function removeContact(i) {
@@ -27,8 +32,9 @@ export default function App() {
         setContact(newContactList);
 
         contactList.splice(i, 1);
+        // Local storage takes only strings
+        localStorage.setItem("contactsInStorage", JSON.stringify(contactList));
     }
-
 
     return <div className="contacts">
         <h1>My Contacts</h1>

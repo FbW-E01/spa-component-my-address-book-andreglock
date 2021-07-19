@@ -1,21 +1,37 @@
 import React from "react";
 // import removeContact from "./App"
 
-export default function ContactsList(props) {
+export default class ContactsList extends React.Component {
 
-    return (
-        <div className="contacts">
+    constructor(props) {
+        super();
+        this.state = {
+            loading: true,
+        }
+    }
+
+    componentDidMount() {
+        this.timer = setTimeout(() => {
+            this.setState({ loading: false })
+            console.log('done');
+        }, 3000);
+    }
+
+    render() {
+        return (<div className="contacts">
+            {this.state.loading ?
+            <div>Loading...</div> : 
             <ul>
-                {props.items.map((contact, i) =>
+                {this.props.items.map((contact, i) =>
                     <li key={i}>
                         {contact.name}
                         {contact.phoneNumber}
-                        <button onClick={() => props.removeContact(i)}>
+                        <button onClick={() => this.props.removeContact(i)}>
                             X
                         </button>
                     </li>
                 )}
-            </ul>
+            </ul>}
         </div>
-    );
+    )}
 }
